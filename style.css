@@ -28,6 +28,10 @@ h2,h4{
   font-size: 38px;
 }
 
+p{
+  font-size: 18px;
+}
+
 h4{
   font-size: 24px;
 }
@@ -195,13 +199,28 @@ margin: 10px 0px;
     width: 100%;
 }
 
+a{
+  text-align: center;
+}
 
 .hero nav{
+  position: fixed ;
   gap: 10px;
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+  justify-content: space-around;
   list-style: none;
   padding: 0;
+  background-color: rgba(0, 0, 0, 0.9);
+  top: 0;
+  width: 100%;
+  z-index: 20;
+
+  a{
+    text-decoration: none;
+    font-size: 22px;
+    margin: 0 20px;
+  }
 }
 
 .hero{
@@ -247,7 +266,12 @@ margin: 10px 0px;
   }
 
   .main_footer{
+    margin: 0px 20px;
     flex-direction: column;
+  }
+
+  .hero nav a{
+    font-size: 18px;
   }
 }
 
@@ -261,7 +285,7 @@ margin: 10px 0px;
 }
 
   .bendecidas picture{
-    min-width: 400px;
+    min-width: 300px;
   }
   .br{
     display: none;
