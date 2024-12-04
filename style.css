@@ -108,21 +108,15 @@ ol{
   }
   form{
     input{
-        padding: 6px;
-        border: 1px #3A6ED4 solid;
+        padding: 12px;
+        border: 1px #AD8A1F solid;
         border-radius: 4px;
         
     }
   }
 
   .custom-label {
-    color: black;
-    font-size: 14px;
-    position: absolute;
-    transform: translateY(-15px);
-    background: white;
-    padding: 0 5px;
-    pointer-events: none;
+   color: #fff;
 }
 
 .input-container{

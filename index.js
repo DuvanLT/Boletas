@@ -148,7 +148,7 @@ app.delete('/eliminar/:numero', async (req, res) => {
 });
 
 app.post('/send', async (req, res) => {
-  const { name, email, message, cantidad, phone, precioTotal, documento } = req.body;
+  const { name,name2,name3,name4, email, message, cantidad, phone, precioTotal, documento } = req.body;
 
   // Validación de datos de entrada
   const numBoletas = parseInt(cantidad, 10);
@@ -178,7 +178,7 @@ Número de Factura : ${Date.now()}
 
 Cliente:
 -----------------------------------------
-Nombre            : ${name}
+Nombre            : ${name} ${name2} ${name3} ${name4}
 Correo            : ${email}
 Whatsapp          : ${phone}
 Número de Documento: ${documento}

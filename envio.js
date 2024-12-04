@@ -12,6 +12,9 @@ document.getElementById('dataForm').addEventListener('submit', async (e) => {
 
   // Capturar valores del formulario
   const name = document.getElementById('name').value.trim()
+  const name2 = document.getElementById('name2').value.trim()
+  const name3= document.getElementById('name3').value.trim()
+  const name4 = document.getElementById('name4').value.trim()
   const email = document.getElementById('email').value.trim()
   const phone = document.getElementById('phone').value.trim()
   const message = document.getElementById('message').value.trim()
@@ -38,7 +41,7 @@ document.getElementById('dataForm').addEventListener('submit', async (e) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ name, email, phone, message, cantidad, precioTotal,documento }),
+      body: JSON.stringify({ name,name2,name3,name4, email, phone, message, cantidad, precioTotal,documento }),
     });
 
     if (!response.ok) {
@@ -54,7 +57,7 @@ document.getElementById('dataForm').addEventListener('submit', async (e) => {
     console.error('Error:', error)
 
     // Enlace de WhatsApp en caso de error
-    const mensaje = `Hola, ${name}, Gracias por comprar con nosotros. Tus boletas serán enviadas pronto. Contáctanos por este medio.`
+    const mensaje = `Hola, ${name}  ${name2}  ${name3}  ${name4}, Gracias por comprar con nosotros. Tus boletas serán enviadas pronto. Contáctanos por este medio.`
     const mensajeCodificado = encodeURIComponent(mensaje);
     const whatsappLink = `https://wa.me/573128066251?text=${mensajeCodificado}`
     window.open(whatsappLink, '_blank')
