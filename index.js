@@ -163,18 +163,39 @@ app.post('/send', async (req, res) => {
     // Generar boletas con el documento asociado
     nuevosNumeros = await generarBoletas(numBoletas, documento);
 
-    // Crear archivo .txt
-    const fileContent = `
-Nombre: ${name}
-Correo: ${email}
-Whatsapp: ${phone}
-Numero de Documento: ${documento}
-Mensaje: ${message}
-Cantidad: ${cantidad}
-Total: ${precioTotal}
-
-Números Generados:
-${nuevosNumeros.join('\n')}`;
+   
+  // Crear archivo .txt con formato de factura
+  const fileContent = `
+  =========================================
+                 FACTURA
+  =========================================
+  
+  Cliente:
+  -----------------------------------------
+  Nombre            : ${name}
+  Correo            : ${email}
+  Whatsapp          : ${phone}
+  Número de Documento: ${documento}
+  
+  Detalles de la Compra:
+  -----------------------------------------
+  Cantidad de Boletas: ${cantidad}
+  Total a Pagar     : $${precioTotal.toFixed(2)}
+  
+  Mensaje:
+  -----------------------------------------
+  ${message}
+  
+  Números Generados:
+  -----------------------------------------
+  ${nuevosNumeros.map((num, idx) => `${idx + 1}. ${num}`).join('\n')}
+  
+  =========================================
+  Gracias por tu compra. ¡Buena suerte!
+  =========================================
+  `;
+  
+    // Guardar archivo .txt
     fs.writeFileSync(fileName, fileContent);
 
     // Configurar y enviar correo
