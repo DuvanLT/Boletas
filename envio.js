@@ -57,7 +57,7 @@ document.getElementById('dataForm').addEventListener('submit', async (e) => {
     console.error('Error:', error)
 
     // Enlace de WhatsApp en caso de error
-    const mensaje = `Hola, ${name}  ${name2}  ${name3}  ${name4}, Gracias por comprar con nosotros. Tus boletas serán enviadas pronto. Contáctanos por este medio.`
+    const mensaje = `Hola, ${name}  ${name2}  ${name3}  ${name4}, Si no has recibido tus boletas, intenta de nuevo.`
     const mensajeCodificado = encodeURIComponent(mensaje);
     const whatsappLink = `https://wa.me/573128066251?text=${mensajeCodificado}`
     window.open(whatsappLink, '_blank')

@@ -242,6 +242,57 @@ fs.writeFileSync(fileName, fileContent);
   }
 });
 
+
+const FechaSchema = new mongoose.Schema({
+  fecha: { type: String, required: true },
+});
+
+const FechaModel = mongoose.model('Fecha', FechaSchema);
+
+// Endpoint para obtener la fecha
+app.get('/fecha', async (req, res) => {
+  try {
+    const fecha = await FechaModel.findOne(); // Obtener el único documento
+    if (!fecha) {
+      return res.status(404).json({ message: 'Fecha no encontrada' });
+    }
+    res.json(fecha);
+  } catch (error) {
+    res.status(500).json({ message: 'Error al obtener la fecha', error });
+  }
+});
+
+// Endpoint para actualizar la fecha
+app.put('/fecha', async (req, res) => {
+  const { nuevaFecha } = req.body;
+
+  try {
+    // Actualizar la fecha (se asume un único documento en la colección)
+    const resultado = await FechaModel.findOneAndUpdate(
+      {}, // Filtro (actualizar el único documento)
+      { $set: { fecha: nuevaFecha } },
+      { new: true, upsert: true } // `upsert` para crear el documento si no existe
+    );
+    res.json({ message: 'Fecha actualizada exitosamente', fecha: resultado });
+  } catch (error) {
+    res.status(500).json({ message: 'Error al actualizar la fecha', error });
+  }
+});
+
+async function obtenerFecha() {
+  try {
+      const response = await fetch('https://boletas-9g64.onrender.com/fecha');
+      const data = await response.json();
+      if (data.fecha) {
+          document.getElementById('fechaActual').textContent = data.fecha;
+      } else {
+          document.getElementById('fechaActual').textContent = 'No se encontró la fecha';
+      }
+  } catch (error) {
+      console.error('Error al obtener la fecha:', error);
+  }
+}
+
 // Iniciar servidor
 app.listen(PORT, () => {
   console.log(`Servidor ejecutándose`);

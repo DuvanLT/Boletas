@@ -54,3 +54,41 @@ document.getElementById('obtener').addEventListener('click', async () => {
     resultado.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
   }
 });
+
+async function actualizarFecha(event) {
+  event.preventDefault(); // Prevenir el envío del formulario
+
+  const nuevaFecha = document.getElementById('nuevaFecha').value;
+
+  if (!nuevaFecha) {
+      alert('Por favor ingrese una nueva fecha.');
+      return;
+  }
+
+  try {
+      const response = await fetch('https://boletas-9g64.onrender.com/fecha', {
+          method: 'PUT',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ nuevaFecha }),
+      });
+
+      if (response.ok) {
+          const data = await response.json();
+          alert('Fecha actualizada exitosamente');
+          obtenerFecha(); // Volver a obtener la fecha después de la actualización
+          document.getElementById('nuevaFecha').value = ''; // Limpiar el campo de entrada
+      } else {
+          alert('Error al actualizar la fecha');
+      }
+  } catch (error) {
+      console.error('Error al actualizar la fecha:', error);
+  }
+}
+
+// Asignar la función de actualización al formulario
+document.getElementById('formActualizarFecha').addEventListener('submit', actualizarFecha);
+
+// Obtener la fecha cuando la página cargue
+window.onload = obtenerFecha;
