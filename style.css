@@ -42,10 +42,6 @@ h4{
 }
 
 
-.bendecidas picture{
-  min-width: 300px;
-}
-
 .bendecidas picture img{
   width: 100%;
 }
@@ -272,7 +268,7 @@ a{
   gap: 8px;
 }
   .bendecidas picture{
-    min-width: 300px;
+    min-width: 170px;
   }
   .br{
     display: block;
@@ -310,7 +306,8 @@ a{
 }
 
   .bendecidas picture{
-    min-width: 200px;
+    min-width: 170px;
+    max-width: 170px;
   }
   .br{
     display: none;
