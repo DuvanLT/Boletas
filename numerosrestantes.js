@@ -1,6 +1,6 @@
       // Función para obtener la cantidad de números restantes
       async function obtenerNumerosRestantes() {
-        const apiUrl = "https://gran-rifa.vercel.app/api/cantidad-numeros-restantes";  // Ajusta esta URL si es necesario
+        const apiUrl = "http://localhost:7000/cantidad-numeros-restantes";  // Ajusta esta URL si es necesario
   
         try {
           const response = await fetch(apiUrl);
