@@ -33,7 +33,7 @@ document.getElementById('dataForm').addEventListener('submit', async (e) => {
     submitButton.innerText = 'Enviando...'
 
     // Enviar solicitud al servidor
-    const response = await fetch('https://gran-rifa.vercel.app/send', {
+    const response = await fetch('https://gran-rifa.vercel.app/api/send', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
