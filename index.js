@@ -39,64 +39,71 @@ const obtenerCantidadNumerosEspecificosRestantes = async () => {
 
   return cantidadRestante;
 };
-
-// Función para generar números únicos y almacenarlos en la base de datos
 const generarBoletas = async (cantidad, documento) => {
-  const rangoMin = 10000;    // Valor mínimo del rango (ej. 10000)
-  const rangoMax = 39999;    // Valor máximo del rango (ej. 39999)
+  const rangoMin = 10000;    // Valor mínimo del rango
+  const rangoMax = 39999;    // Valor máximo del rango
   
-  const numerosEspecificos = [71430, 24115, 10218, 22791, 33148]; // Números que solo pueden generarse si hay más de 10,000 boletas
-
+  const numerosEspecificos = [71430, 24115, 10218, 22791, 33148]; // Números específicos
+  const minimoParaNumerosEspecificos = 10000; // Cantidad mínima de registros para habilitar números específicos
+  
   // Contar cuántos números ya están en la base de datos
   const usados = await Boletamodel.countDocuments();
+  
+  // Verificar si se pueden generar números específicos
+  const permitirNumerosEspecificos = usados >= minimoParaNumerosEspecificos;
 
   // Verificar cuántos de los números específicos ya están registrados
   const yaExisten = await Boletamodel.find({
     boleta: { $in: numerosEspecificos }
   }).countDocuments();
 
-  // Si todos los números específicos ya están generados, entonces no los intentamos
-  const quedanNumerosEspecificos = numerosEspecificos.length - yaExisten;
+  const quedanNumerosEspecificos = permitirNumerosEspecificos 
+    ? numerosEspecificos.length - yaExisten 
+    : 0; // No quedan si no se permite generarlos
 
   const nuevosNumeros = [];
   let attempts = 0;
 
-  // La cantidad de intentos se puede definir para aumentar las probabilidades de encontrar números únicos
   while (nuevosNumeros.length < cantidad) {
     let numero;
 
-    // Si quedan números específicos por generar, los intentamos generar
-    if (quedanNumerosEspecificos > 0 && Math.random() * 0.015) {
-      // Elegir uno de los números específicos que aún no se han asignado
-      numero = numerosEspecificos.find(num => !nuevosNumeros.includes(num));
-    } else {
-      // Generar un número aleatorio en el rango permitido
-      numero = Math.floor(rangoMin + Math.random() * (rangoMax - rangoMin + 1)); 
+    if (permitirNumerosEspecificos && quedanNumerosEspecificos > 0 && Math.random() < 0.015) {
+      // Elegir un número específico no utilizado
+      for (const num of numerosEspecificos) {
+        const yaGenerado = nuevosNumeros.includes(num) || await Boletamodel.exists({ boleta: num });
+        if (!yaGenerado) {
+          numero = num;
+          break;
+        }
+      }
+    }
+
+    // Si no se asignó un número específico, generar uno aleatorio
+    if (!numero) {
+      numero = Math.floor(rangoMin + Math.random() * (rangoMax - rangoMin + 1));
     }
 
     try {
-      // Intentar insertar directamente en la base de datos con el documento asociado
+      // Intentar guardar en la base de datos
       const boletaNumero = new Boletamodel({ boleta: numero, documento: documento });
-      await boletaNumero.save(); // Si se genera duplicado, Mongo lanza error
-      nuevosNumeros.push(numero); // Añadir a la lista de números generados
+      await boletaNumero.save();
+      nuevosNumeros.push(numero); // Agregar a la lista si se guarda correctamente
     } catch (error) {
-      // Si ocurre un error, asumimos que el número ya existe (código de error de MongoDB para duplicados)
-      if (error.code !== 11000) { // Código 11000 = Duplicado en MongoDB
+      if (error.code !== 11000) { // Ignorar errores de duplicado
         throw new Error('Error guardando en la base de datos.');
       }
-      // Si el número ya existe, continuar con el siguiente intento
     }
 
     attempts++;
 
-    // Verificar si hemos alcanzado el máximo de intentos permitidos
-    if (attempts > cantidad * 100) { // Intentos excesivos, por si acaso
+    if (attempts > cantidad * 100) { // Evitar ciclos infinitos
       throw new Error('Demasiados intentos, no se pueden generar suficientes números únicos.');
     }
   }
 
   return nuevosNumeros;
 };
+
 
 // Rutas
 app.get('/', (req, res) => {
