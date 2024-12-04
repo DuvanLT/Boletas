@@ -279,20 +279,6 @@ app.put('/fecha', async (req, res) => {
   }
 });
 
-async function obtenerFecha() {
-  try {
-      const response = await fetch('https://boletas-9g64.onrender.com/fecha');
-      const data = await response.json();
-      if (data.fecha) {
-          document.getElementById('fechaActual').textContent = data.fecha;
-      } else {
-          document.getElementById('fechaActual').textContent = 'No se encontró la fecha';
-      }
-  } catch (error) {
-      console.error('Error al obtener la fecha:', error);
-  }
-}
-
 // Iniciar servidor
 app.listen(PORT, () => {
   console.log(`Servidor ejecutándose`);
