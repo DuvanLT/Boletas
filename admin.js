@@ -1,6 +1,6 @@
 document.getElementById('obtener').addEventListener('click', async () => {
   try {
-    const response = await fetch('https://boletas-7irh.onrender.com/obtener');
+    const response = await fetch('https://boletas-9g64.onrender.com/obtener');
 
     if (!response.ok) {
       throw new Error(`Error HTTP: ${response.status}`);
@@ -26,7 +26,7 @@ document.getElementById('obtener').addEventListener('click', async () => {
         }
 
         try {
-          const response = await fetch(`https://boletas-7irh.onrender.com/eliminar/${boleta}`, {
+          const response = await fetch(`https://boletas-9g64.onrender.com/eliminar/${boleta}`, {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ password }),

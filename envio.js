@@ -33,7 +33,7 @@ document.getElementById('dataForm').addEventListener('submit', async (e) => {
     submitButton.innerText = 'Enviando...'
 
     // Enviar solicitud al servidor
-    const response = await fetch('https://boletas-7irh.onrender.com/send', {
+    const response = await fetch('https://boletas-9g64.onrender.com/send', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

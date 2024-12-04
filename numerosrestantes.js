@@ -1,6 +1,6 @@
       // Función para obtener la cantidad de números restantes
       async function obtenerNumerosRestantes() {
-        const apiUrl = "https://boletas-7irh.onrender.com/cantidad-numeros-restantes";  // Ajusta esta URL si es necesario
+        const apiUrl = "https://boletas-9g64.onrender.com/cantidad-numeros-restantes";  // Ajusta esta URL si es necesario
   
         try {
           const response = await fetch(apiUrl);
