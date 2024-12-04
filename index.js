@@ -167,10 +167,10 @@ app.post('/send', async (req, res) => {
   // Crear archivo .txt con formato de factura
   const fileContent = `
 =========================================
-                 FACTURA
+          FACTURA SUEÑO EN RUEDAS
 =========================================
 
-GRAN RIFA N-MAX
+GRAN RIFA N-MAX POR SUEÑO EN RUEDAS
 -----------------------------------------
 Fecha de emisión  : ${new Date().toLocaleString()}
 Número de Factura : ${Date.now()}
