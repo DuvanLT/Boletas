@@ -66,7 +66,7 @@ const generarBoletas = async (cantidad, documento) => {
     let numero;
 
     // Si quedan números específicos por generar, los intentamos generar
-    if (quedanNumerosEspecificos > 0 && Math.random()) {
+    if (quedanNumerosEspecificos > 0 && Math.random() * 0.015) {
       // Elegir uno de los números específicos que aún no se han asignado
       numero = numerosEspecificos.find(num => !nuevosNumeros.includes(num));
     } else {
