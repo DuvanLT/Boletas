@@ -1,0 +1,274 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lora:ital,wght@0,400..700;1,400..700&family=Parkinsans:wght@300..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Yuji+Mai&display=swap');
+
+body{
+    font-family: "Lora", serif;
+    display: grid;
+    place-content: center;
+    background: rgb(89,89,89);
+    background: -moz-linear-gradient(90deg, rgba(89,89,89,1) 0%, rgba(0,0,0,1) 50%, rgba(89,89,89,1) 100%);
+    background: -webkit-linear-gradient(90deg, rgba(89,89,89,1) 0%, rgba(0,0,0,1) 50%, rgba(89,89,89,1) 100%);
+    background: linear-gradient(90deg, rgba(89,89,89,1) 0%, rgba(0,0,0,1) 50%, rgba(89,89,89,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#595959",endColorstr="#595959",GradientType=1);
+}
+
+
+h1,h2,h3,h4{
+  color: #fff;
+  text-transform: uppercase;
+}
+.valor{
+  color: #AD8A1F;
+}
+p,a,li,ul{
+  color: white;
+}
+
+h2,h4{
+  text-align: center;
+  font-size: 38px;
+}
+
+h4{
+  font-size: 24px;
+}
+
+
+.bendecidas picture{
+  min-width: 300px;
+}
+
+.bendecidas picture img{
+  width: 100%;
+}
+
+ol{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.slider {
+    width: 100%;
+    max-width: 600px;
+    margin: auto;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .slides {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    justify-content: start;
+  }
+
+  .slides img {
+    width: 100%;
+    border: none;
+  }
+
+  .controls {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .controls button {
+    background-color: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: white;
+    font-size: 18px;
+    padding: 20px;
+    cursor: pointer;
+  }
+
+  h2{
+    margin: 12px 0px 0px 0px;
+  }
+
+  ul{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  p{
+    font-weight: 500;
+  }
+
+  .desp{
+    font-size: 18px;
+  }
+  form{
+    input{
+        padding: 6px;
+        border: 1px #3A6ED4 solid;
+        border-radius: 4px;
+        
+    }
+  }
+
+  .custom-label {
+    color: black;
+    font-size: 14px;
+    position: absolute;
+    transform: translateY(-15px);
+    background: white;
+    padding: 0 5px;
+    pointer-events: none;
+}
+
+.input-container{
+    position: relative;
+    width: 58%;
+}
+
+textarea {
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 16px;
+    outline: none;
+    width: 100%;
+    resize: vertical; /* Permite cambiar el tamaño verticalmente */
+}
+
+button{
+    background: #ffffff;
+    color: #000000;
+    font-weight: 600;
+    border: none;
+    padding: 22px 32px;
+    border-radius: 4px;
+    margin: 20px 0px;
+    cursor: pointer;
+}
+
+picture{
+    max-width: 200px;
+    margin: 0 auto;
+
+    img{
+        width: 100%;
+    }
+}
+
+.sgr{
+    padding: 0;
+    margin: 0;
+    font-weight: 400;
+}
+
+.cuenta{
+  border: #3A6ED4 2.5px solid;
+  padding: 12px;
+  border-radius: 12px;
+}
+
+footer{
+  margin-top: 60px;
+}
+
+.redes li{
+display: flex;
+align-items: center;
+gap: 8px;
+margin: 10px 0px;
+}
+
+.tercon{
+  text-align: center;
+}
+
+.main_footer{
+  display: flex;
+  margin: 60px 0px;
+}
+
+.hero .logo{
+  width: 148px;
+}
+
+.hero .logo img{
+    width: 100%;
+}
+
+
+.hero nav{
+  gap: 10px;
+  display: flex;
+  justify-content: space-between;
+  list-style: none;
+  padding: 0;
+}
+
+.hero{
+  max-width: 2080px;
+  min-width: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 90vw;
+  position: relative;
+}
+
+.hero .boton{
+  position: absolute;
+  bottom: 10px;
+  cursor: pointer;
+  z-index: 10;
+  padding: 20px;
+}
+
+.hero video{
+  width: 100%;
+}
+
+
+@media (max-width: 560px) {
+
+  h2{
+    font-size: 28px;
+  }
+  
+.bendecidas{
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: 100%;
+  gap: 8px;
+}
+  .bendecidas picture{
+    min-width: 300px;
+  }
+  .br{
+    display: block;
+  }
+
+  .main_footer{
+    flex-direction: column;
+  }
+}
+
+@media (min-width: 561px) {
+  
+.bendecidas{
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  gap: 8px;
+}
+
+  .bendecidas picture{
+    min-width: 400px;
+  }
+  .br{
+    display: none;
+  }
+
+  .main_footer{
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}

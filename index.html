@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="multimedia/logo.png" type="image/x-icon">
+  <link rel="stylesheet" href="style.css">
+  <title>GRAN RIFA</title>
+</head>
+<body>
+<main>
+  <section class="hero">
+    <nav>
+        <a class="tercon" href="terminos-condiciones.html">Políticas y condiciones de uso</a>
+        <a><picture class="logo">
+          <img src="multimedia/logo.png" alt="logo">
+        </picture></a>
+        <a>Atencion al cliente</a>
+    </nav>
+
+  <div class="boton">
+  <a href="pago.html"><button>COMPRAR BOLETAS</button></a>
+  </div>
+    <video src="multimedia/Clip_N-max.mp4" autoplay  muted></video>
+  </section>
+
+
+  <h2>Ganate esta increible N-MAX</h2>
+  <h2>Juega, Si, Juega el 1 de enero del 2025</h2>
+  <h2>Valor Boleta: <span class="valor">$15.000 COP</span></h2>
+  <!-- <a class="tercon" href="terminos-condiciones.html">Políticas y condiciones de uso</a>-->
+  <br><br>
+  <h4>Numeros bendecidos restantes: <span id="numeroBendecido"></span> </h4>
+  <div class="bendecidas">
+    <picture>
+      <img src="multimedia/bendecida_1.jpg" alt="Bendecida 1">
+    </picture>
+    <picture>
+      <img src="multimedia/bendecida_2.png" alt="Bendecida 2">
+    </picture>
+    <picture>
+      <img src="multimedia/bendecida_3.jpg" alt="Bendecida 3">
+    </picture>
+    <picture>
+      <img src="multimedia/bendecida_4.png" alt="Bendecida 4">
+    </picture>
+    <picture>
+      <img src="multimedia/bendecida_5.jpg" alt="Bendecida 5">
+    </picture>
+  </div>
+  <!--
+<div class="slider">
+  <div class="slides">
+    <img src="multimedia/N-Max.jpg" alt="Slide 1">
+    <img src="multimedia/N-max-2.jpg" alt="Slide 2">
+  </div>
+  <div class="controls">
+    <button id="prev" class="right">❮</button>
+    <button id="next" class="left">❯</button>
+  </div>
+</div>
+-->
+</main>
+ 
+  <a href="pago.html"><button>COMPRAR BOLETAS</button></a>
+ 
+
+
+    <footer>
+      <div class="main_footer">
+      <ul class="redes">
+        <h3>Redes</h3>
+        <li><img src="instagram.svg" alt=""> Rifas</li>
+        <li><img src="instagram.svg" alt=""> Rifas</li>
+        <li><img src="instagram.svg" alt=""> Rifas</li>
+      </ul>
+      <ul>
+        <h3>Preguntas</h3>
+        <li>Como se recibe el premio</li>
+        <li>Otra pregunta</li>
+        <li>Otra pregunta</li>
+      </ul>
+    </div>
+    <p class="tercon">Derechos reservados &copy; Rifas</p>
+    </footer>
+
+    <script src="slider.js"></script>
+  
+    <script>
+      // Función para obtener la cantidad de números restantes
+      async function obtenerNumerosRestantes() {
+        const apiUrl = "http://localhost:7000/cantidad-numeros-restantes";  // Ajusta esta URL si es necesario
+  
+        try {
+          const response = await fetch(apiUrl);
+          const data = await response.json();
+  
+          if (response.ok) {
+            // Actualiza el contenido del elemento con el id 'numeroBendecido'
+            document.getElementById("numeroBendecido").textContent = data.cantidadRestante;
+          } else {
+            console.error(data.error);
+            alert("Error al obtener los datos");
+          }
+        } catch (error) {
+          console.error("Error en la solicitud:", error);
+          alert("Error en la solicitud");
+        }
+      }
+  
+      // Llamada para obtener la cantidad de números restantes al cargar la página
+      obtenerNumerosRestantes();
+    </script>
+  
+  
+</body>
+</html>
