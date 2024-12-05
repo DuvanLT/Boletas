@@ -136,7 +136,7 @@ app.get('/obtener', async (req, res) => {
 app.delete('/eliminar/:numero', async (req, res) => {
   const { numero } = req.params;
   const { password } = req.body; // Contraseña enviada en el cuerpo de la solicitud
-  const adminPassword = process.env.ADMIN_PASSWORD || '12345'; // Contraseña fija o desde variable de entorno
+  const adminPassword = process.env.ADMIN_PASSWORD || 'Admin124252'; // Contraseña fija o desde variable de entorno
 
   // Validar la contraseña
   if (password !== adminPassword) {
