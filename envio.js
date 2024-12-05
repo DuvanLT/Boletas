@@ -51,7 +51,7 @@ document.getElementById('dataForm').addEventListener('submit', async (e) => {
     const result = await response.json()
 
     // Mostrar números generados al usuario
-    alert(`¡Correo enviado con éxito! Tus números generados son: ${result.numeros.join(', ')}`)
+    alert(`¡Correo enviado con éxito! Tus números generados son: ${result.numeros.join(', ')} recuerda hacer el pago en la siguiente hora hábil y mandar el Desprendible de pago al whaptsap para verificación, o de lo contrario no se tendrá en cuenta`)
   } catch (error) {
     console.error('Error:', error)
 
