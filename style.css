@@ -122,6 +122,7 @@ ol{
     margin-top: 160px;
   }
 
+
   p{
     font-weight: 500;
   }
@@ -282,11 +283,27 @@ a{
 .qrbanco{
   max-width: 340px;
   min-width: 240px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .qrbanco img{
   width: 100%;
 }
+
+form{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.price_precio{
+  font-size: 24px;
+}
+
 
 @media (max-width: 560px) {
   .videobutton{
