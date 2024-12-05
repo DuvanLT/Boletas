@@ -11,7 +11,6 @@
             document.getElementById("numeroBendecido").textContent = data.cantidadRestante;
           } else {
             console.error(data.error);
-            alert("Error al obtener los datos");
           }
         } catch (error) {
         }
