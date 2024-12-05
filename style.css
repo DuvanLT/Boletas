@@ -16,6 +16,7 @@ body{
 h1,h2,h3,h4{
   color: #fff;
   text-transform: uppercase;
+  text-align: center;
 }
 .valor{
   color: #AD8A1F;
@@ -41,6 +42,22 @@ h4{
   font-size: 24px;
 }
 
+.whatsapp{
+  position: fixed;
+  bottom: 20px;
+  z-index: 40;
+  right: 20px;
+}
+
+.enlaces{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.enlaces a{
+  text-decoration: none;
+}
 
 .bendecidas picture img{
   width: 100%;
@@ -51,26 +68,27 @@ ol{
   flex-direction: column;
   gap: 10px;
 }
-
 .slider {
-    width: 100%;
-    max-width: 600px;
-    margin: auto;
-    overflow: hidden;
-    position: relative;
-  }
+  width: 100%;
+  max-width: 600px;
+  margin: auto;
+  overflow: hidden;
+  position: relative;
+  border-radius: 10px; /* Bordes redondeados */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra opcional */
+}
 
-  .slides {
-    display: flex;
-    transition: transform 0.5s ease-in-out;
-    justify-content: start;
-  }
+.slides {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
 
-  .slides img {
-    width: 100%;
-    border: none;
-  }
-
+.slides img {
+  width: 100%;
+  height: auto; /* Mantiene las proporciones */
+  object-fit: contain; /* Evita el corte de la imagen */
+  border: none;
+}
   .controls {
     position: absolute;
     top: 50%;
@@ -79,6 +97,7 @@ ol{
     display: flex;
     justify-content: space-between;
   }
+
 
   .controls button {
     background-color: rgba(0, 0, 0, 0.5);
@@ -97,6 +116,10 @@ ol{
     list-style: none;
     padding: 0;
     margin: 0;
+  }
+
+  .form_container{
+    margin-top: 160px;
   }
 
   p{
@@ -118,6 +141,8 @@ ol{
   .custom-label {
    color: #fff;
 }
+
+
 
 .input-container{
     position: relative;
@@ -174,6 +199,7 @@ picture{
 footer{
   margin-top: 60px;
   margin: 0px 60px;
+
 }
 
 .redes li{
@@ -181,6 +207,13 @@ display: flex;
 align-items: center;
 gap: 8px;
 margin: 10px 0px;
+}
+
+.redes li a{
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .tercon{
@@ -246,6 +279,14 @@ a{
   width: 100%;
 }
 
+.qrbanco{
+  max-width: 340px;
+  min-width: 240px;
+}
+
+.qrbanco img{
+  width: 100%;
+}
 
 @media (max-width: 560px) {
   .videobutton{
@@ -287,6 +328,8 @@ a{
 }
 
 @media (min-width: 561px) {
+
+
   .videobutton{
     display: block;
   }
@@ -312,3 +355,4 @@ a{
     justify-content: space-between;
   }
 }
+

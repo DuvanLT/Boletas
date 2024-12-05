@@ -17,7 +17,6 @@ document.getElementById('dataForm').addEventListener('submit', async (e) => {
   const name4 = document.getElementById('name4').value.trim()
   const email = document.getElementById('email').value.trim()
   const phone = document.getElementById('phone').value.trim()
-  const message = document.getElementById('message').value.trim()
   const documento = document.getElementById('documento').value.trim()
   const cantidad = parseInt(document.getElementById('cantidad').value, 10) || 0;
   const precioUnitario = 15000;
@@ -41,7 +40,7 @@ document.getElementById('dataForm').addEventListener('submit', async (e) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ name,name2,name3,name4, email, phone, message, cantidad, precioTotal,documento }),
+      body: JSON.stringify({ name,name2,name3,name4, email, phone, cantidad, precioTotal,documento }),
     });
 
     if (!response.ok) {
@@ -57,9 +56,7 @@ document.getElementById('dataForm').addEventListener('submit', async (e) => {
     console.error('Error:', error)
 
     // Enlace de WhatsApp en caso de error
-    const mensaje = `Hola, ${name}  ${name2}  ${name3}  ${name4}, Si no has recibido tus boletas, intenta de nuevo.`
-    const mensajeCodificado = encodeURIComponent(mensaje);
-    const whatsappLink = `https://wa.me/573128066251?text=${mensajeCodificado}`
+    const whatsappLink = "https://api.whatsapp.com/send?phone=+573243020663&text=HOLA%21%21+%2C+me+interesa+informaci%C3%B3n+sobre+mi+futura+N.max+ultimo+modelo+"
     window.open(whatsappLink, '_blank')
 
     alert(`Hubo un error al enviar tu solicitud. Hemos generado un enlace para contactarnos por WhatsApp.`)

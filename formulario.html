@@ -7,10 +7,28 @@
     <link rel="stylesheet" href="style.css">
     <title>Formulario</title>
 </head>
-<body>
-  
+<body style="    display: flex;
+justify-content: center;
+align-items: center; flex-direction: column;">
+  <picture class="whatsapp">
+    <a href="https://w.app/GB7I96"><img src="whatsapp.svg" alt="" ></a> 
+   </picture>
+  <section class="hero">
+    <nav>
+        <a class="tercon" href="terminos-condiciones.html" target="_blank">Políticas y condiciones de uso</a>
+        <picture class="logo">
+          <img src="multimedia/logo.png" alt="logo">
+        </picture>
+        <a href="https://api.whatsapp.com/send?phone=+573243020663&text=HOLA%21%21+%2C+me+interesa+informaci%C3%B3n+sobre+mi+futura+N.max+ultimo+modelo+" target="_blank">Atencion al cliente</a>
+    </nav>
+
+  <div class="boton videobutton">
+  <a href="formulario.html"><button>COMPRAR BOLETAS</button></a>
+  </div>
+  <main class="form_main">
+  </section>
     <div class="form_container">
-        <h1>Formulario para enviar datos</h1>
+        <h1>Formulario de pago</h1>
         <p>enviaremos al correo una factura con los numeros de tus boletas</p> 
         <p><b>Nota:</b> <span class="sgr">Al realizar el pago deberas mandar comprobante al Whatsapp,<br> una vez pagado y confirmado, tus boletas entran a jugar</span></p>
         <br>
@@ -41,41 +59,52 @@
           <input type="number" id="cantidad" name="cantidad" required min="2" max="10">
 
           <p>PRECIO: <span id="price"></span></p><br>
-      
-          <div class="input-container">
-          <label for="message" class="custom-label">Mensaje</label>
-          <textarea id="message" name="message"></textarea>
-          </div>
+
+        </div>        
+    <h1>Opciones de pago:</h1>
+    <p class="sgr">Para tu seguridad realizaras el pago por medio de tu aplicacion bancanria</p>
+    <p>Guarda los datos para realizar el pago al calcular tus boletas</p>
+    <p>Da click en obtener boletas para calcular el precio y obtener tus boletas</p>
+    <h3>Datos de cuenta:</h3>
+    <p class="cuenta"><b>nombre:</b> Camilo Andrés Loaiza Córdoba</p>
+    <p class="cuenta"><b>Tipo de documento:</b> Cedula</p>
+    <p class="cuenta"><b>Documento:</b> 1007827864</p>
+    <p class="cuenta"><b>Banco:</b> Bancolombia</p>
+    <p class="cuenta"><b>tipo de cuenta:</b> Cuenta Ahorros</p>
+    <p class="cuenta"><b>numero de cuenta:</b> 91234572143</p>
+    <button type="submit">PAGAR BOLETAS</button>
+  </form>
+    <h3>Codigo QR</h3>
+    <picture class="qrbanco">
+      <img src="multimedia/Bancolombia.png" alt="">
+        <img src="multimedia/qr.jpg" alt="">
+      </picture>
     
-        <button type="submit">PAGAR BOLETAS</button>
-      </form>
-      <a href="https://wa.me/573128066251?text=Envia%20tu%20comprobante%20aqui%20para%20que%20tus%20boletas%20entren%20a%20jugar" 
+      <a href="https://api.whatsapp.com/send?phone=+573243020663&text=HOLA%21%21+%2C+me+interesa+informaci%C3%B3n+sobre+mi+futura+N.max+ultimo+modelo+" 
    target="_blank" 
    style="text-decoration: none;">
-  <button style="display: flex; align-items: center; background-color: #25D366; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer;">
+  <button style="display: flex; align-items: center; background-color: #25D366; color: white; border: none; padding: 20px 30px; border-radius: 5px; cursor: pointer;">
     <i class="fab fa-whatsapp" style="margin-right: 8px;"></i>
     WhatsApp
   </button>
 </a>
-        </div>
-        <footer>
-          <div class="main_footer">
-          <ul class="redes">
-            <h3>Redes</h3>
-            <li><img src="instagram.svg" alt=""> Rifas</li>
-            <li><img src="instagram.svg" alt=""> Rifas</li>
-            <li><img src="instagram.svg" alt=""> Rifas</li>
-          </ul>
-          <ul>
-            <h3>Preguntas</h3>
-            <li>Como se recibe el premio</li>
-            <li>Otra pregunta</li>
-            <li>Otra pregunta</li>
-          </ul>
-        </div>
-        <p class="tercon">Terminos y condiciones</p>
-        <p class="tercon">Derechos reservados &copy; Rifas</p>
-        </footer>
+</main>
+<footer>
+  <div class="main_footer">
+  <ul class="redes">
+    <h3>Redes</h3>
+    <li><a href="https://www.instagram.com/aselerao_?igsh=ZncxZXdneGU3eWVj"><img src="instagram.svg" alt="">Aselerao_</a></li>
+    <li><a href="https://www.tiktok.com/@aselerao?_t=8rwZRoJP6mN&_r=1"><img src="Tiktok.svg" alt="">Aselerao</a></li>
+    <li><a href="https://www.facebook.com/aselerao?mibextid=LQQJ4d&rdid=nrgjHSPF3Fr2bDNy&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2FnqX6sVHG9MQTscsU%2F%3Fmibextid%3DLQQJ4d#"><img src="Facebook.svg" alt="">Aselerao</a></li>
+  </ul>
+</div>
+<p>Se actúa bajo el nombre como persona juridica bajo la razon social SUEÑO SOBRE RUEDA// Responsable principal @Aselerao</p>
+<div class="enlaces">
+<a class="tercon" href="terminos-condiciones.html">Politicas y condiciones   &copy; Aselerao</a>
+<a href="mailto:Busdigital514@gmail.com">Busdigital514@gmail.com</a>
+</div>
+<p class="tercon">Cali, Colombia</p>
+</footer>
         <script src="envio.js"></script>
 </body>
 </html>

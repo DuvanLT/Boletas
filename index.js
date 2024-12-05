@@ -155,7 +155,7 @@ app.delete('/eliminar/:numero', async (req, res) => {
 });
 
 app.post('/send', async (req, res) => {
-  const { name,name2,name3,name4, email, message, cantidad, phone, precioTotal, documento } = req.body;
+  const { name,name2,name3,name4, email, cantidad, phone, precioTotal, documento } = req.body;
 
   // Validación de datos de entrada
   const numBoletas = parseInt(cantidad, 10);
@@ -195,16 +195,14 @@ Detalles de la Compra:
 Cantidad de Boletas: ${cantidad}
 Total a Pagar     : $${precioTotal.toFixed(2)}
 
-Mensaje:
------------------------------------------
-${message}
-
 Números Generados:
 -----------------------------------------
 ${nuevosNumeros.map((num, idx) => `${idx + 1}. ${num}`).join('\n')}
 
 =========================================
-Gracias por tu compra. ¡Buena suerte!
+Gracias por participar. 
+Los pasos pequeños también
+Llevan a grandes metas, buena suerte! 
 =========================================
 `;
 
