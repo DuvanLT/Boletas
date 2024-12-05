@@ -14,8 +14,6 @@
             alert("Error al obtener los datos");
           }
         } catch (error) {
-          console.error("Error en la solicitud:", error);
-          alert("Error en la solicitud");
         }
       }
   
