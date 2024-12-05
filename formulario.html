@@ -32,7 +32,7 @@ align-items: center; flex-direction: column;">
         <p>enviaremos al correo una factura con los numeros de tus boletas</p> 
         <p><b>Nota:</b> <span class="sgr">Al realizar el pago deberas mandar comprobante al Whatsapp,<br> una vez pagado y confirmado, tus boletas entran a jugar</span></p>
         <br>
-        <form id="dataForm" >
+        <form id="dataForm">
           <label for="name" class="custom-label">PRIMER NOMBRE</label>
           <input type="text" id="name" name="name" required> <br class="br"><br class="br">
 
@@ -59,7 +59,8 @@ align-items: center; flex-direction: column;">
           <input type="number" id="cantidad" name="cantidad" required min="2" max="10">
 
           <p>PRECIO: <span id="price"></span></p><br>
-
+          <button type="submit">PAGAR BOLETAS</button>
+        </form>     
         </div>   
     <h1>Opciones de pago:</h1>
     <p class="sgr">Para tu seguridad realizaras el pago por medio de tu aplicacion bancanria</p>
@@ -77,8 +78,6 @@ align-items: center; flex-direction: column;">
       <img src="multimedia/Bancolombia.png" alt="">
         <img src="multimedia/qr.jpg" alt="">
       </picture>
-      <button type="submit">PAGAR BOLETAS</button>
-    </form>     
       <a href="https://api.whatsapp.com/send?phone=+573243020663&text=HOLA%21%21+%2C+me+interesa+informaci%C3%B3n+sobre+mi+futura+N.max+ultimo+modelo+" 
    target="_blank" 
    style="text-decoration: none;">
