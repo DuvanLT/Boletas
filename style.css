@@ -85,7 +85,7 @@ ol{
 
 .slides img {
   width: 100%;
-  height: auto; /* Mantiene las proporciones */
+  max-height: 400px;
   object-fit: contain; /* Evita el corte de la imagen */
   border: none;
 }
