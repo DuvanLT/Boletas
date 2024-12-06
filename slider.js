@@ -1,27 +1,18 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const slides = document.querySelector('.slides');
-    const images = document.querySelectorAll('.slides img');
-    const prevButton = document.getElementById('prev');
-    const nextButton = document.getElementById('next');
-    
-    let currentIndex = 0;
-  
-    const updateSlider = () => {
-      const slideWidth = images[0].clientWidth;
-      slides.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
-    };
-  
-    nextButton.addEventListener('click', () => {
-      currentIndex = (currentIndex + 1) % images.length; // Avanza en bucle
-      updateSlider();
-    });
-  
-    prevButton.addEventListener('click', () => {
-      currentIndex = (currentIndex - 1 + images.length) % images.length; // Retrocede en bucle
-      updateSlider();
-    });
-  
-    // Ajusta el slider si la ventana cambia de tamaño
-    window.addEventListener('resize', updateSlider);
-  });
-  
+const slides = document.querySelector('.slides');
+const slideCount = document.querySelectorAll('.slide').length;
+let currentIndex = 0;
+
+document.querySelector('.prev').addEventListener('click', () => {
+  currentIndex = (currentIndex > 0) ? currentIndex - 1 : slideCount - 1;
+  updateSlider();
+});
+
+document.querySelector('.next').addEventListener('click', () => {
+  currentIndex = (currentIndex < slideCount - 1) ? currentIndex + 1 : 0;
+  updateSlider();
+});
+
+function updateSlider() {
+  const slideWidth = document.querySelector('.slider').clientWidth;
+  slides.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
+}

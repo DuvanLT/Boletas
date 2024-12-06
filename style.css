@@ -68,51 +68,80 @@ ol{
   flex-direction: column;
   gap: 10px;
 }
+/* Contenedor principal del slider */
 .slider {
-  width: 100%;
-  max-width: 600px;
+  width: 100%; /* Asegurarse de que ocupe el 100% del ancho del contenedor */
+  max-width: 600px; /* Para dispositivos más grandes */
   margin: auto;
   overflow: hidden;
   position: relative;
-  border-radius: 10px; /* Bordes redondeados */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra opcional */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Contenedor de todas las slides */
 .slides {
   display: flex;
   transition: transform 0.5s ease-in-out;
 }
 
-.slides img {
-  width: 100%;
-  height: 100%; /* Ocupa toda la altura del contenedor */
-  max-height: 400px; /* Altura máxima uniforme */
-  object-fit: cover; /* Ajusta las imágenes uniformemente, cortando si es necesario */
+/* Cada slide individual */
+.slide {
+  min-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Imágenes dentro de cada slide */
+.slides img,video{
+  width: 100%; /* Responsivo: ocupa todo el ancho disponible */
+  height: auto; /* Mantiene la proporción de la imagen */
+  max-height: 600px; /* Controla la altura máxima */
+  object-fit: cover; /* Recorta la imagen si es necesario para ajustarse al contenedor */
   border: none;
 }
 
-.slider {
-  aspect-ratio: 3 / 2; /* Relación de aspecto uniforme */
+/* Botones de navegación */
+.prev,
+.next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 20px;
+  cursor: pointer;
+  z-index: 10;
 }
 
-  .controls {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
+.prev {
+  left: 10px;
+}
+
+.next {
+  right: 10px;
+}
+
+.prev:hover,
+.next:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Estilos específicos para pantallas pequeñas */
+@media (max-width: 768px) {
+  .slider {
+    max-width: 100%; /* Ajusta el slider al 100% del ancho de la pantalla */
   }
 
-
-  .controls button {
-    background-color: rgba(0, 0, 0, 0.5);
-    border: none;
-    color: white;
-    font-size: 18px;
-    padding: 20px;
-    cursor: pointer;
+  .slides img,video {
+    max-height: 300px; /* Reduce la altura en dispositivos más pequeños */
   }
+
+  .prev,
+  .next {
+    padding: 8px; /* Ajusta el tamaño de los botones */
+  }
+}
 
   h2{
     margin: 12px 0px 0px 0px;
@@ -284,6 +313,7 @@ a{
 
 .hero video{
   width: 100%;
+  min-height: 800px;
 }
 
 .qrbanco{
@@ -312,6 +342,10 @@ form{
 
 
 @media (max-width: 560px) {
+  
+.hero video{
+  min-height: 400px;
+}
   .videobutton{
     display: none;
   }
@@ -349,9 +383,6 @@ form{
   margin-top: 100px;
 }
 
-.slider {
-  max-width: 300px;
-}
 }
 
 @media (min-width: 561px) {
