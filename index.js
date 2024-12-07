@@ -270,14 +270,14 @@ app.get('/download-excel', async (req, res) => {
     const wb = xlsx.utils.book_new();
     const ws_data = [
       [
-        "Boleta", 
-        "Documento", 
-        "Primer Nombre", 
-        "Segundo Nombre", 
-        "Primer Apellido", 
-        "Segundo Apellido", 
-        "Email", 
-        "Teléfono",  
+        "NÚMERO BOLETA", 
+        "CC", 
+        "PRIMER NOMBRE", 
+        "SEGUNDO NOMBRE", 
+        "PRIMER APELLIDO", 
+        "SEGUNDO APELLIDO", 
+        "EMAIL", 
+        "TELÉFONO",  
       ]
     ];
 
