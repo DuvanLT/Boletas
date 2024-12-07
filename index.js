@@ -170,16 +170,18 @@ app.post('/send', async (req, res) => {
     // Generar boletas con el documento asociado
     nuevosNumeros = await generarBoletas(numBoletas, documento);
 
-   
-  // Crear archivo .txt con formato de factura
-  const fileContent = `
+    // Obtener la fecha y hora de Colombia
+    const fechaColombia = new Date().toLocaleString("es-CO", { timeZone: "America/Bogota" });
+
+    // Crear archivo .txt con formato de factura
+    const fileContent = `
 =========================================
           FACTURA SUEÑO EN RUEDAS
 =========================================
 
 GRAN RIFA N-MAX POR SUEÑO EN RUEDAS
 -----------------------------------------
-Fecha de emisión  : ${new Date().toLocaleString()}
+Fecha de emisión  : ${fechaColombia}
 Número de Factura : ${Date.now()}
 -----------------------------------------
 
@@ -206,9 +208,8 @@ Llevan a grandes metas, buena suerte!
 =========================================
 `;
 
-// Guardar archivo .txt
-fs.writeFileSync(fileName, fileContent);
-
+    // Guardar archivo .txt
+    fs.writeFileSync(fileName, fileContent);
 
     // Configurar y enviar correo
     const transporter = nodemailer.createTransport({
