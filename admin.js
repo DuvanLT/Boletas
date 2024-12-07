@@ -57,7 +57,7 @@ document.getElementById('obtener').addEventListener('click', async () => {
 
 
 document.getElementById('downloadBtn').addEventListener('click', () => {
-  fetch('/download-excel')
+  fetch('https://boletas-9g64.onrender.com/download-excel')
     .then(response => {
       if (response.ok) {
         return response.blob();  // Obtener el archivo como blob
