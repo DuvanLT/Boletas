@@ -2,10 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
 const mongoose = require("mongoose");
+const xlsx = require("xlsx");
 const fs = require('fs');
-const xlsx = require('xlsx');
 const cors = require('cors');
-
 require('dotenv').config();
 
 const app = express();
@@ -25,15 +24,7 @@ mongoose.connect(MONGOURL)
 // Definición del esquema y modelo
 const BoletaSchema = new mongoose.Schema({
   boleta: { type: Number, unique: true },
-  documento: { type: String },
-  name: { type: String },
-  name2: { type: String },
-  name3: { type: String },
-  name4: { type: String },
-  email: { type: String },
-  phone: { type: String },
-  cantidad: { type: Number },
-  precioTotal: { type: Number },
+  documento: {type: String},
 });
 const Boletamodel = mongoose.model("Boleta", BoletaSchema);
 
@@ -164,9 +155,10 @@ app.delete('/eliminar/:numero', async (req, res) => {
   }
 });
 
+let datosGenerados = [];
 
 app.post('/send', async (req, res) => {
-  const { name, name2, name3, name4, email, cantidad, phone, precioTotal, documento } = req.body;
+  const { name,name2,name3,name4, email, cantidad, phone, precioTotal, documento } = req.body;
 
   // Validación de datos de entrada
   const numBoletas = parseInt(cantidad, 10);
@@ -181,36 +173,57 @@ app.post('/send', async (req, res) => {
     // Generar boletas con el documento asociado
     nuevosNumeros = await generarBoletas(numBoletas, documento);
 
-    // Guardar los datos junto con los números generados en la base de datos
-    for (const num of nuevosNumeros) {
-      const nuevaBoleta = new Boletamodel({
-        boleta: num,
-        documento: documento,
-        name: name,
-        name2: name2,
-        name3: name3,
-        name4: name4,
-        email: email,
-        phone: phone,
-        cantidad: numBoletas,
-        precioTotal: precioTotal,
-      });
+    // Obtener la hora UTC y ajustar a la zona horaria de Colombia (UTC-5)
+    const now = new Date();
+    const fechaColombia = new Date(now.getTime() - now.getTimezoneOffset() * 60000 - 5 * 3600000)
+        .toLocaleString("es-CO");
 
-      await nuevaBoleta.save(); // Guardar en la base de datos
-    }
 
-    // Generar archivo .txt con formato de factura
-    const fileContent = ` 
+    
+  // Crear archivo .txt con formato de factura
+  const fileContent = `
 =========================================
           FACTURA SUEÑO EN RUEDAS
 =========================================
-... // Aquí sigue tu código para generar el archivo de factura
+
+GRAN RIFA N-MAX POR SUEÑO EN RUEDAS
+-----------------------------------------
+Fecha de emisión  : ${fechaColombia}
+Número de Factura : ${Date.now()}
+-----------------------------------------
+
+Cliente:
+-----------------------------------------
+Nombre            : ${name} ${name2} ${name3} ${name4}
+Correo            : ${email}
+Whatsapp          : ${phone}
+Número de Documento: ${documento}
+
+Detalles de la Compra:
+-----------------------------------------
+Cantidad de Boletas: ${cantidad}
+Total a Pagar     : $${precioTotal.toFixed(2)}
+
+Números Generados:
+-----------------------------------------
+${nuevosNumeros.map((num, idx) => `${idx + 1}. ${num}`).join('\n')}
+
+=========================================
+Gracias por participar. 
+Los pasos pequeños también
+Llevan a grandes metas, buena suerte! 
+=========================================
 `;
 
-    // Guardar archivo .txt
-    fs.writeFileSync(fileName, fileContent);
+// Guardar archivo .txt
+fs.writeFileSync(fileName, fileContent);
 
-    // Enviar correo
+datosGenerados.push({
+  name, name2, name3, name4, email, phone, documento, cantidad, precioTotal, nuevosNumeros
+});
+
+
+    // Configurar y enviar correo
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -239,54 +252,33 @@ app.post('/send', async (req, res) => {
     }
   }
 });
-app.get('/download-excel', async (req, res) => {
+
+app.get('/download-excel', (req, res) => {
+  if (datosGenerados.length === 0) {
+    return res.status(404).json({ error: 'No hay datos disponibles para generar el Excel.' });
+  }
+
+  const fileNameExcel = `boletas-${Date.now()}.xlsx`;
+  
   try {
-    // Obtener datos desde la base de datos
-    const datos = await Boletamodel.find();
-
-    if (datos.length === 0) {
-      return res.status(404).json({ error: 'No hay datos disponibles para generar el Excel.' });
-    }
-
-    const fileNameExcel = `boletas-${Date.now()}.xlsx`;
-
     // Crear el archivo Excel con los datos almacenados
     const wb = xlsx.utils.book_new();
     const ws_data = [
-      [
-        "Boleta", 
-        "Documento", 
-        "Primer Nombre", 
-        "Segundo Nombre", 
-        "Primer Apellido", 
-        "Segundo Apellido", 
-        "Email", 
-        "Teléfono", 
-        "Cantidad de Boletas", 
-        "Precio Total"
-      ]
+      ["Nombre", "Nombre 2", "Apellido 1", "Apellido 2", "Email", "Teléfono", "Documento", "Cantidad", "Precio Total", "Números Generados"]
     ];
 
-    // Agregar los datos desde la base de datos
-    datos.forEach((data) => {
+    // Agregar los datos almacenados
+    datosGenerados.forEach((data) => {
       ws_data.push([
-        data.boleta,
-        data.documento,
-        data.name,       // Nombre 1
-        data.name2,      // Nombre 2
-        data.name3,      // Nombre 3
-        data.name4,      // Nombre 4
-        data.email,      // Email
-        data.phone,      // Teléfono
-        data.cantidad,   // Cantidad de Boletas
-        data.precioTotal // Precio Total
+        data.name, data.name2, data.name3, data.name4, data.email, data.phone, data.documento, 
+        data.cantidad, data.precioTotal, data.nuevosNumeros.join(", ")
       ]);
     });
 
     const ws = xlsx.utils.aoa_to_sheet(ws_data);
     xlsx.utils.book_append_sheet(wb, ws, "Datos Clientes");
 
-    // Guardar el archivo Excel temporalmente
+    // Guardar el archivo Excel
     xlsx.writeFile(wb, fileNameExcel);
 
     // Enviar el archivo como respuesta
@@ -294,17 +286,19 @@ app.get('/download-excel', async (req, res) => {
       if (err) {
         console.error('Error al enviar el archivo:', err);
       }
-
       // Eliminar el archivo después de enviarlo
       if (fs.existsSync(fileNameExcel)) {
         fs.unlinkSync(fileNameExcel);
       }
     });
+
   } catch (error) {
     console.error('Error generando el Excel:', error);
     res.status(500).json({ error: 'Error generando el archivo Excel.' });
   }
 });
+
+
 
 const FechaSchema = new mongoose.Schema({
   fecha: { type: String, required: true },
