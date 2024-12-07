@@ -190,7 +190,17 @@ app.post('/send', async (req, res) => {
 
   try {
     // Generar boletas con el documento asociado
-    nuevosNumeros = await generarBoletas(numBoletas, documento);
+    const nuevosNumeros = await generarBoletas(
+      parseInt(cantidad, 10),
+      documento,
+      name,
+      name2,
+      name3,
+      name4,
+      email,
+      phone,
+      parseFloat(precioTotal)
+    );
 
     // Obtener la hora UTC y ajustar a la zona horaria de Colombia (UTC-5)
     const now = new Date();
