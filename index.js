@@ -27,6 +27,7 @@ const BoletaSchema = new mongoose.Schema({
   documento: {type: String},
   nombre_1: {type: String},
   nombre_2: {type: String},
+  correo: {type: String},
   apellido_1: {type: String},
   apellido_2: {type: String},
   telefono: {type: String},
@@ -96,13 +97,14 @@ const generarBoletas = async (cantidad, documento) => {
       const boletaNumero = new Boletamodel({
         boleta: numero,
         documento: documento,
-        nombre_1: nombre_1,
-        nombre_2: nombre_2,
-        apellido_1: apellido_1,
-        apellido_2: apellido_2,
-        telefono: telefono,
-        cant_boletas: cant_boletas,
-        prec_total: prec_total
+        nombre_1: name1,
+        nombre_2: name2,
+        correo: email,
+        apellido_1: name3,
+        apellido_2: name4,
+        telefono: phone,
+        cant_boletas: cantidad,
+        prec_total: precioTotal,
       });
 
       await boletaNumero.save();
