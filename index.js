@@ -4,6 +4,7 @@ const nodemailer = require('nodemailer');
 const mongoose = require("mongoose");
 const fs = require('fs');
 const cors = require('cors');
+const xlsx = require('xlsx');
 require('dotenv').config();
 
 const app = express();
