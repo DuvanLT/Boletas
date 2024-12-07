@@ -92,7 +92,7 @@ const generarBoletas = async (cantidad, documento,name, name2,name3,name4,phone,
 
     try {
       // Intentar guardar en la base de datos
-      const boletaNumero = new Boletamodel({ boleta: numero, documento: documento, name: name });
+      const boletaNumero = new Boletamodel({ boleta: numero, documento: documento, name: name,name2: name2, name3: name3, name4:name4,phone:phone,email:email });
       await boletaNumero.save();
       nuevosNumeros.push(numero); // Agregar a la lista si se guarda correctamente
     } catch (error) {
