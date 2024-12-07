@@ -55,6 +55,25 @@ document.getElementById('obtener').addEventListener('click', async () => {
   }
 });
 
+
+document.getElementById('downloadBtn').addEventListener('click', () => {
+  fetch('/download-excel')
+    .then(response => {
+      if (response.ok) {
+        return response.blob();  // Obtener el archivo como blob
+      } else {
+        throw new Error('No hay datos disponibles para generar el Excel');
+      }
+    })
+    .then(blob => {
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'boletas.xlsx';
+      link.click();
+    })
+    .catch(error => alert(error.message));
+});
+
 async function actualizarFecha(event) {
   event.preventDefault(); // Prevenir el envío del formulario
 

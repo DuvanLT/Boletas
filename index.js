@@ -154,6 +154,8 @@ app.delete('/eliminar/:numero', async (req, res) => {
   }
 });
 
+let datosGenerados = [];
+
 app.post('/send', async (req, res) => {
   const { name,name2,name3,name4, email, cantidad, phone, precioTotal, documento } = req.body;
 
@@ -209,6 +211,10 @@ Llevan a grandes metas, buena suerte!
 // Guardar archivo .txt
 fs.writeFileSync(fileName, fileContent);
 
+datosGenerados.push({
+  name, name2, name3, name4, email, phone, documento, cantidad, precioTotal, nuevosNumeros
+});
+
 
     // Configurar y enviar correo
     const transporter = nodemailer.createTransport({
@@ -239,6 +245,52 @@ fs.writeFileSync(fileName, fileContent);
     }
   }
 });
+
+app.get('/download-excel', (req, res) => {
+  if (datosGenerados.length === 0) {
+    return res.status(404).json({ error: 'No hay datos disponibles para generar el Excel.' });
+  }
+
+  const fileNameExcel = `boletas-${Date.now()}.xlsx`;
+  
+  try {
+    // Crear el archivo Excel con los datos almacenados
+    const wb = xlsx.utils.book_new();
+    const ws_data = [
+      ["Nombre", "Nombre 2", "Apellido 1", "Apellido 2", "Email", "Teléfono", "Documento", "Cantidad", "Precio Total", "Números Generados"]
+    ];
+
+    // Agregar los datos almacenados
+    datosGenerados.forEach((data) => {
+      ws_data.push([
+        data.name, data.name2, data.name3, data.name4, data.email, data.phone, data.documento, 
+        data.cantidad, data.precioTotal, data.nuevosNumeros.join(", ")
+      ]);
+    });
+
+    const ws = xlsx.utils.aoa_to_sheet(ws_data);
+    xlsx.utils.book_append_sheet(wb, ws, "Datos Clientes");
+
+    // Guardar el archivo Excel
+    xlsx.writeFile(wb, fileNameExcel);
+
+    // Enviar el archivo como respuesta
+    res.download(fileNameExcel, (err) => {
+      if (err) {
+        console.error('Error al enviar el archivo:', err);
+      }
+      // Eliminar el archivo después de enviarlo
+      if (fs.existsSync(fileNameExcel)) {
+        fs.unlinkSync(fileNameExcel);
+      }
+    });
+
+  } catch (error) {
+    console.error('Error generando el Excel:', error);
+    res.status(500).json({ error: 'Error generando el archivo Excel.' });
+  }
+});
+
 
 
 const FechaSchema = new mongoose.Schema({
