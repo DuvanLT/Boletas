@@ -277,8 +277,7 @@ app.get('/download-excel', async (req, res) => {
         "Primer Apellido", 
         "Segundo Apellido", 
         "Email", 
-        "Teléfono", 
-        "Cantidad de Boletas", 
+        "Teléfono",  
       ]
     ];
 
@@ -293,7 +292,6 @@ app.get('/download-excel', async (req, res) => {
         data.name4,      // Nombre 4
         data.email,      // Email
         data.phone,      // Teléfono
-        data.cantidad,   // Cantidad de Boletas
       ]);
     });
 
