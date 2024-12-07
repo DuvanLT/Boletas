@@ -4,7 +4,6 @@ const nodemailer = require('nodemailer');
 const mongoose = require("mongoose");
 const fs = require('fs');
 const cors = require('cors');
-const xlsx = require('xlsx');
 require('dotenv').config();
 
 const app = express();
@@ -25,14 +24,6 @@ mongoose.connect(MONGOURL)
 const BoletaSchema = new mongoose.Schema({
   boleta: { type: Number, unique: true },
   documento: {type: String},
-  nombre_1: {type: String},
-  nombre_2: {type: String},
-  correo: {type: String},
-  apellido_1: {type: String},
-  apellido_2: {type: String},
-  telefono: {type: String},
-  cant_boletas: {type: String},
-  prec_total: {type: String},
 });
 const Boletamodel = mongoose.model("Boleta", BoletaSchema);
 
@@ -94,19 +85,7 @@ const generarBoletas = async (cantidad, documento) => {
 
     try {
       // Intentar guardar en la base de datos
-      const boletaNumero = new Boletamodel({
-        boleta: numero,
-        documento: documento,
-        nombre_1: name1,
-        nombre_2: name2,
-        correo: email,
-        apellido_1: name3,
-        apellido_2: name4,
-        telefono: phone,
-        cant_boletas: cantidad,
-        prec_total: precioTotal,
-      });
-
+      const boletaNumero = new Boletamodel({ boleta: numero, documento: documento });
       await boletaNumero.save();
       nuevosNumeros.push(numero); // Agregar a la lista si se guarda correctamente
     } catch (error) {
@@ -175,6 +154,7 @@ app.delete('/eliminar/:numero', async (req, res) => {
   }
 });
 
+let datosGenerados = [];
 
 app.post('/send', async (req, res) => {
   const { name,name2,name3,name4, email, cantidad, phone, precioTotal, documento } = req.body;
@@ -190,17 +170,7 @@ app.post('/send', async (req, res) => {
 
   try {
     // Generar boletas con el documento asociado
-    const nuevosNumeros = await generarBoletas(
-      parseInt(cantidad, 10),
-      documento,
-      name,
-      name2,
-      name3,
-      name4,
-      email,
-      phone,
-      parseFloat(precioTotal)
-    );
+    nuevosNumeros = await generarBoletas(numBoletas, documento);
 
     // Obtener la hora UTC y ajustar a la zona horaria de Colombia (UTC-5)
     const now = new Date();
@@ -247,6 +217,10 @@ Llevan a grandes metas, buena suerte!
 // Guardar archivo .txt
 fs.writeFileSync(fileName, fileContent);
 
+datosGenerados.push({
+  name, name2, name3, name4, email, phone, documento, cantidad, precioTotal, nuevosNumeros
+});
+
 
     // Configurar y enviar correo
     const transporter = nodemailer.createTransport({
@@ -278,53 +252,32 @@ fs.writeFileSync(fileName, fileContent);
   }
 });
 
-// Endpoint para descargar datos como Excel
-app.get('/download-excel', async (req, res) => {
+app.get('/download-excel', (req, res) => {
+  if (datosGenerados.length === 0) {
+    return res.status(404).json({ error: 'No hay datos disponibles para generar el Excel.' });
+  }
+
+  const fileNameExcel = `boletas-${Date.now()}.xlsx`;
+  
   try {
-    // Obtener datos desde la base de datos
-    const datos = await Boletamodel.find();
-
-    if (datos.length === 0) {
-      return res.status(404).json({ error: 'No hay datos disponibles para generar el Excel.' });
-    }
-
-    const fileNameExcel = `boletas-${Date.now()}.xlsx`;
-
     // Crear el archivo Excel con los datos almacenados
     const wb = xlsx.utils.book_new();
     const ws_data = [
-      [
-        "Boleta", 
-        "Documento", 
-        "Nombre 1", 
-        "Nombre 2", 
-        "Apellido 1", 
-        "Apellido 2", 
-        "Teléfono", 
-        "Cantidad de Boletas", 
-        "Precio Total"
-      ]
+      ["Nombre", "Nombre 2", "Apellido 1", "Apellido 2", "Email", "Teléfono", "Documento", "Cantidad", "Precio Total", "Números Generados"]
     ];
 
-    // Agregar los datos desde la base de datos
-    datos.forEach((data) => {
+    // Agregar los datos almacenados
+    datosGenerados.forEach((data) => {
       ws_data.push([
-        data.boleta,
-        data.documento,
-        data.nombre_1,
-        data.nombre_2,
-        data.apellido_1,
-        data.apellido_2,
-        data.telefono,
-        data.cant_boletas,
-        data.prec_total
+        data.name, data.name2, data.name3, data.name4, data.email, data.phone, data.documento, 
+        data.cantidad, data.precioTotal, data.nuevosNumeros.join(", ")
       ]);
     });
 
     const ws = xlsx.utils.aoa_to_sheet(ws_data);
     xlsx.utils.book_append_sheet(wb, ws, "Datos Clientes");
 
-    // Guardar el archivo Excel temporalmente
+    // Guardar el archivo Excel
     xlsx.writeFile(wb, fileNameExcel);
 
     // Enviar el archivo como respuesta
@@ -332,12 +285,12 @@ app.get('/download-excel', async (req, res) => {
       if (err) {
         console.error('Error al enviar el archivo:', err);
       }
-
       // Eliminar el archivo después de enviarlo
       if (fs.existsSync(fileNameExcel)) {
         fs.unlinkSync(fileNameExcel);
       }
     });
+
   } catch (error) {
     console.error('Error generando el Excel:', error);
     res.status(500).json({ error: 'Error generando el archivo Excel.' });
