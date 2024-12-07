@@ -172,7 +172,13 @@ app.post('/send', async (req, res) => {
     // Generar boletas con el documento asociado
     nuevosNumeros = await generarBoletas(numBoletas, documento);
 
-   
+    // Obtener la hora UTC y ajustar a la zona horaria de Colombia (UTC-5)
+    const now = new Date();
+    const fechaColombia = new Date(now.getTime() - now.getTimezoneOffset() * 60000 - 5 * 3600000)
+        .toLocaleString("es-CO");
+
+
+    
   // Crear archivo .txt con formato de factura
   const fileContent = `
 =========================================
@@ -181,7 +187,7 @@ app.post('/send', async (req, res) => {
 
 GRAN RIFA N-MAX POR SUEÑO EN RUEDAS
 -----------------------------------------
-Fecha de emisión  : ${new Date().toLocaleString()}
+Fecha de emisión  : ${fechaColombia}
 Número de Factura : ${Date.now()}
 -----------------------------------------
 
