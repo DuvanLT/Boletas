@@ -78,6 +78,27 @@ async function actualizarFecha(event) {
         console.error('Error al obtener la fecha:', error);
     }
   }
+
+  document.getElementById('downloadBtn').addEventListener('click', () => {
+    fetch('https://boletas-9g64.onrender.com/download-excel')  // Aquí agregamos el dominio completo
+      .then(response => {
+        if (response.ok) {
+          return response.blob();  // Obtener el archivo como blob
+        } else {
+          throw new Error('No hay datos disponibles para generar el Excel');
+        }
+      })
+      .then(blob => {
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'boletas.xlsx';
+        link.click();
+      })
+      .catch(error => alert(error.message));
+  });
+  
+
+  
   
 
   try {

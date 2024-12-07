@@ -154,8 +154,10 @@ app.delete('/eliminar/:numero', async (req, res) => {
   }
 });
 
+let datosGenerados = []; // Para almacenar los datos enviados
+
 app.post('/send', async (req, res) => {
-  const { name,name2,name3,name4, email, cantidad, phone, precioTotal, documento } = req.body;
+  const { name, name2, name3, name4, email, cantidad, phone, precioTotal, documento } = req.body;
 
   // Validación de datos de entrada
   const numBoletas = parseInt(cantidad, 10);
@@ -164,7 +166,7 @@ app.post('/send', async (req, res) => {
   }
 
   let nuevosNumeros;
-  const fileName = `datos-${Date.now()}.txt`;
+  const fileNameTxt = `datos-${Date.now()}.txt`;
 
   try {
     // Generar boletas con el documento asociado
@@ -178,29 +180,24 @@ app.post('/send', async (req, res) => {
 =========================================
           FACTURA SUEÑO EN RUEDAS
 =========================================
-
 GRAN RIFA N-MAX POR SUEÑO EN RUEDAS
 -----------------------------------------
 Fecha de emisión  : ${fechaColombia}
 Número de Factura : ${Date.now()}
 -----------------------------------------
-
 Cliente:
 -----------------------------------------
 Nombre            : ${name} ${name2} ${name3} ${name4}
 Correo            : ${email}
 Whatsapp          : ${phone}
 Número de Documento: ${documento}
-
 Detalles de la Compra:
 -----------------------------------------
 Cantidad de Boletas: ${cantidad}
 Total a Pagar     : $${precioTotal.toFixed(2)}
-
 Números Generados:
 -----------------------------------------
 ${nuevosNumeros.map((num, idx) => `${idx + 1}. ${num}`).join('\n')}
-
 =========================================
 Gracias por participar. 
 Los pasos pequeños también
@@ -209,35 +206,69 @@ Llevan a grandes metas, buena suerte!
 `;
 
     // Guardar archivo .txt
-    fs.writeFileSync(fileName, fileContent);
+    fs.writeFileSync(fileNameTxt, fileContent);
 
-    // Configurar y enviar correo
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: process.env.EMAIL,
-        pass: process.env.PASSWORD,
-      },
+    // Almacenar los datos para generar el Excel más tarde
+    datosGenerados.push({
+      name, name2, name3, name4, email, phone, documento, cantidad, precioTotal, nuevosNumeros
     });
 
-    const mailOptions = {
-      from: process.env.EMAIL,
-      to: `${email}, busdigital514@gmail.com`,
-      subject: 'Factura boletas',
-      text: 'Adjuntamos un archivo con los datos ingresados y los números generados. No olvides mandar el comprobante de pago vía WhatsApp. ¡Buena suerte!',
-      attachments: [{ filename: fileName, path: `./${fileName}` }],
-    };
-
-    await transporter.sendMail(mailOptions);
-    res.status(200).json({ message: 'Correo enviado con éxito.', numeros: nuevosNumeros });
+    // Enviar respuesta de éxito
+    res.status(200).json({ message: 'Datos procesados y almacenados. Esperando descarga del Excel.', numeros: nuevosNumeros });
   } catch (error) {
     console.error('Error en el proceso:', error);
     res.status(500).json({ error: 'Error procesando la solicitud.' });
   } finally {
-    // Eliminar archivo temporal
-    if (fs.existsSync(fileName)) {
-      fs.unlinkSync(fileName);
+    // Eliminar archivo temporal de factura
+    if (fs.existsSync(fileNameTxt)) {
+      fs.unlinkSync(fileNameTxt);
     }
+  }
+});
+
+// Ruta para descargar el Excel con los datos almacenados
+app.get('/download-excel', (req, res) => {
+  if (datosGenerados.length === 0) {
+    return res.status(404).json({ error: 'No hay datos disponibles para generar el Excel.' });
+  }
+
+  const fileNameExcel = `boletas-${Date.now()}.xlsx`;
+  
+  try {
+    // Crear el archivo Excel con los datos almacenados
+    const wb = xlsx.utils.book_new();
+    const ws_data = [
+      ["Primer Nombre", "Segundo Nombre", "Primer Apellido", "Segundo Apellido", "Email", "Teléfono", "Documento", "Cantidad", "Precio Total", "Números Generados"]
+    ];
+
+    // Agregar los datos almacenados
+    datosGenerados.forEach((data) => {
+      ws_data.push([
+        data.name, data.name2, data.name3, data.name4, data.email, data.phone, data.documento, 
+        data.cantidad, data.precioTotal, data.nuevosNumeros.join(", ")
+      ]);
+    });
+
+    const ws = xlsx.utils.aoa_to_sheet(ws_data);
+    xlsx.utils.book_append_sheet(wb, ws, "Datos Clientes");
+
+    // Guardar el archivo Excel
+    xlsx.writeFile(wb, fileNameExcel);
+
+    // Enviar el archivo como respuesta
+    res.download(fileNameExcel, (err) => {
+      if (err) {
+        console.error('Error al enviar el archivo:', err);
+      }
+      // Eliminar el archivo después de enviarlo
+      if (fs.existsSync(fileNameExcel)) {
+        fs.unlinkSync(fileNameExcel);
+      }
+    });
+
+  } catch (error) {
+    console.error('Error generando el Excel:', error);
+    res.status(500).json({ error: 'Error generando el archivo Excel.' });
   }
 });
 
