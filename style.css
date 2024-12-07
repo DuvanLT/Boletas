@@ -79,6 +79,11 @@ ol{
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+.checkbox{
+  color: #fff;
+}
+
+
 /* Contenedor de todas las slides */
 .slides {
   display: flex;
