@@ -25,6 +25,13 @@ mongoose.connect(MONGOURL)
 const BoletaSchema = new mongoose.Schema({
   boleta: { type: Number, unique: true },
   documento: {type: String},
+  nombre_1: {type: String},
+  nombre_2: {type: String},
+  apellido_1: {type: String},
+  apellido_2: {type: String},
+  telefono: {type: String},
+  cant_boletas: {type: String},
+  prec_total: {type: String},
 });
 const Boletamodel = mongoose.model("Boleta", BoletaSchema);
 
@@ -86,7 +93,18 @@ const generarBoletas = async (cantidad, documento) => {
 
     try {
       // Intentar guardar en la base de datos
-      const boletaNumero = new Boletamodel({ boleta: numero, documento: documento });
+      const boletaNumero = new Boletamodel({
+        boleta: numero,
+        documento: documento,
+        nombre_1: nombre_1,
+        nombre_2: nombre_2,
+        apellido_1: apellido_1,
+        apellido_2: apellido_2,
+        telefono: telefono,
+        cant_boletas: cant_boletas,
+        prec_total: prec_total
+      });
+
       await boletaNumero.save();
       nuevosNumeros.push(numero); // Agregar a la lista si se guarda correctamente
     } catch (error) {
@@ -155,7 +173,6 @@ app.delete('/eliminar/:numero', async (req, res) => {
   }
 });
 
-let datosGenerados = [];
 
 app.post('/send', async (req, res) => {
   const { name,name2,name3,name4, email, cantidad, phone, precioTotal, documento } = req.body;
@@ -218,10 +235,6 @@ Llevan a grandes metas, buena suerte!
 // Guardar archivo .txt
 fs.writeFileSync(fileName, fileContent);
 
-datosGenerados.push({
-  name, name2, name3, name4, email, phone, documento, cantidad, precioTotal, nuevosNumeros
-});
-
 
     // Configurar y enviar correo
     const transporter = nodemailer.createTransport({
@@ -253,32 +266,53 @@ datosGenerados.push({
   }
 });
 
-app.get('/download-excel', (req, res) => {
-  if (datosGenerados.length === 0) {
-    return res.status(404).json({ error: 'No hay datos disponibles para generar el Excel.' });
-  }
-
-  const fileNameExcel = `boletas-${Date.now()}.xlsx`;
-  
+// Endpoint para descargar datos como Excel
+app.get('/download-excel', async (req, res) => {
   try {
+    // Obtener datos desde la base de datos
+    const datos = await Boletamodel.find();
+
+    if (datos.length === 0) {
+      return res.status(404).json({ error: 'No hay datos disponibles para generar el Excel.' });
+    }
+
+    const fileNameExcel = `boletas-${Date.now()}.xlsx`;
+
     // Crear el archivo Excel con los datos almacenados
     const wb = xlsx.utils.book_new();
     const ws_data = [
-      ["Nombre", "Nombre 2", "Apellido 1", "Apellido 2", "Email", "Teléfono", "Documento", "Cantidad", "Precio Total", "Números Generados"]
+      [
+        "Boleta", 
+        "Documento", 
+        "Nombre 1", 
+        "Nombre 2", 
+        "Apellido 1", 
+        "Apellido 2", 
+        "Teléfono", 
+        "Cantidad de Boletas", 
+        "Precio Total"
+      ]
     ];
 
-    // Agregar los datos almacenados
-    datosGenerados.forEach((data) => {
+    // Agregar los datos desde la base de datos
+    datos.forEach((data) => {
       ws_data.push([
-        data.name, data.name2, data.name3, data.name4, data.email, data.phone, data.documento, 
-        data.cantidad, data.precioTotal, data.nuevosNumeros.join(", ")
+        data.boleta,
+        data.documento,
+        data.nombre_1,
+        data.nombre_2,
+        data.apellido_1,
+        data.apellido_2,
+        data.telefono,
+        data.cant_boletas,
+        data.prec_total
       ]);
     });
 
     const ws = xlsx.utils.aoa_to_sheet(ws_data);
     xlsx.utils.book_append_sheet(wb, ws, "Datos Clientes");
 
-    // Guardar el archivo Excel
+    // Guardar el archivo Excel temporalmente
     xlsx.writeFile(wb, fileNameExcel);
 
     // Enviar el archivo como respuesta
@@ -286,12 +320,12 @@ app.get('/download-excel', (req, res) => {
       if (err) {
         console.error('Error al enviar el archivo:', err);
       }
+
       // Eliminar el archivo después de enviarlo
       if (fs.existsSync(fileNameExcel)) {
         fs.unlinkSync(fileNameExcel);
       }
     });
-
   } catch (error) {
     console.error('Error generando el Excel:', error);
     res.status(500).json({ error: 'Error generando el archivo Excel.' });
