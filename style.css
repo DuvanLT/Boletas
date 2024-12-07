@@ -201,7 +201,7 @@ textarea {
     resize: vertical; /* Permite cambiar el tamaño verticalmente */
 }
 
-button{
+button,.abutton{
     background: #ffffff;
     color: #000000;
     font-weight: 600;
@@ -210,9 +210,41 @@ button{
     border-radius: 4px;
     margin: 20px 0px;
     cursor: pointer;
+    text-decoration: none;
 }
 
-button:hover{
+.pasoapaso{
+  margin-top: 200px;
+  text-align: center;
+  text-wrap: balance;
+
+  ul,ol,li{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+    gap: 12px;
+  }
+
+  li img{
+    max-width: 200px;
+    margin: 10px 0px;
+  }
+
+  .ttle{
+    color: #AD8A1F;
+    font-weight: 600;
+  }
+
+  .facturas{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+  }
+}
+
+button:hover,.abutton:hover{
   background: #000;
   color: #fff;
 }
@@ -347,7 +379,11 @@ form{
 }
 
 
-@media (max-width: 560px) {
+@media (max-width: 658px) {
+
+  .pasoapaso{
+    margin-top: 140px;
+  }
   
 .hero video{
   min-height: 400px;
@@ -388,6 +424,14 @@ form{
 .hero video{
   margin-top: 100px;
 }
+
+.pasoapaso{
+  .facturas{
+    flex-direction: column;
+  }
+}
+
+
 
 }
 
