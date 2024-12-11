@@ -163,6 +163,21 @@ ol{
     margin-top: 160px;
   }
 
+.poster{
+  min-width: 250px;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.poster img{
+  object-fit: cover;
+  width: 100%;
+  margin: 0 auto;
+}
 
   p{
     font-weight: 500;
