@@ -191,7 +191,7 @@ app.post('/send', async (req, res) => {
           FACTURA SUEÑO EN RUEDAS
 =========================================
 
-GRAN RIFA N-MAX POR SUEÑO EN RUEDAS
+GRAN SORTEO N-MAX POR SUEÑO EN RUEDAS
 -----------------------------------------
 Fecha de emisión  : ${fechaColombia}
 Número de Factura : ${Date.now()}
