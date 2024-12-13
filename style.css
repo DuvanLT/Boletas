@@ -403,9 +403,6 @@ form{
 .hero video{
   min-height: 400px;
 }
-  .videobutton{
-    display: none;
-  }
   h2{
     font-size: 28px;
   }
@@ -453,9 +450,6 @@ form{
 @media (min-width: 561px) {
 
 
-  .videobutton{
-    display: block;
-  }
 .bendecidas{
   max-width: 700px;
   margin: 0 auto;
